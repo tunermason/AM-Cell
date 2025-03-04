@@ -99,6 +99,59 @@ While specific instructions vary by manufacturer, most commercial picocells requ
 
 Most commercial units provide a web interface for configuration.
 
+### Detailed Picocell Configuration Steps
+
+While you should always consult your manufacturer's documentation for specific instructions, here are general configuration steps:
+
+1. **Connect to your picocell's management interface** (typically a web interface accessed via IP address)
+
+2. **Configure MME Connection**:
+   - Set the MME IP address to match your Open5GS MME interface IP
+   - Use the standard S1AP port (typically 36412)
+   - Some units may require you to specify a SCTP port as well
+
+3. **Configure PLMN ID and TAI**:
+   - Set the PLMN ID (MCC/MNC) to match what you configured in Open5GS and on your SIM cards
+   - Set the TAC (Tracking Area Code) to match your Open5GS configuration
+   - These values must match across your entire network for proper registration
+
+4. **Configure Frequency Settings**:
+   - Most commercial picocells use EARFCN (E-UTRA Absolute Radio Frequency Channel Number) for frequency configuration
+   - You can calculate the appropriate EARFCN for your chosen frequency at [CellMapper's ARFCN Calculator](https://www.cellmapper.net/arfcn)
+   - Ensure you're selecting a frequency within your permitted amateur radio bands
+   - Common amateur-friendly bands include Band 8 (900 MHz) or Band 3 (1800 MHz) in many regions
+
+5. **Configure Transmission Power**:
+   - For indoor testing, set power to minimum necessary levels (typically <100mW)
+   - Remember to stay within legal power limits for amateur radio operations
+
+6. **Additional Settings**:
+   - Cell ID: A unique identifier for your cell (choose any unique number)
+   - PCI (Physical Cell Identity): Values range from 0-503, choose one that won't conflict with nearby cells
+   - Bandwidth: Common settings are 5, 10, or 20 MHz depending on your equipment capabilities
+
+### Connection Process
+
+After configuring your picocell:
+
+1. **Startup Sequence**: Most base stations perform self-diagnostics on boot
+   - Be patient as this can take approximately 5 minutes
+   - LEDs will typically indicate status (consult manufacturer documentation)
+
+2. **Verifying Connection**:
+   - Check the MME logs on your Open5GS server:
+     ```bash
+     sudo tail -f /var/log/open5gs/mme.log
+     ```
+   - Look for successful S1AP connection establishment messages
+   - You should see messages about successful eNodeB registration and setup
+
+3. **Troubleshooting**:
+   - If the eNodeB fails to connect, verify all IP addresses and network connectivity
+   - Check SCTP connectivity: `sudo netstat -anp | grep 36412`
+   - Ensure your firewall allows SCTP traffic (port 36412)
+   - Verify matching PLMN IDs and TAC across all configurations
+
 ### Configuring Open5GS MME for your eNodeB
 
 Edit /etc/open5gs/mme.yaml to set the S1AP IP address, PLMN ID, and TAC:
