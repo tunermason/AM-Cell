@@ -41,7 +41,7 @@ Speed test results with default settings (B40, 2305MHz):
 ## Network Configuration
 
 ### iPhone Connection Details
-<img src="images/iphone16e-open5gs.jpg" alt="iPhone Open5GS Connection"/>
+<img src="images/iphone16e-open5gs.jpg" alt="iPhone Open5GS Connection" width="200"/>
 
 ### Xiaomi Network Configuration
 <img src="images/xiaomi-open5gs-ips.jpg" alt="Xiaomi Open5GS IP Configuration" height="400"/>
